@@ -33,8 +33,10 @@ class SearchResultController {
         // Creat the query items to add to the baseURL
         let searchTermQueryItem = URLQueryItem(name: "term", value: searchTerm)
         
+        let resultTypeQueryItem = URLQueryItem(name: "entity", value: resultType.rawValue)
+        
         // Build the url based on the urlComponets and then add it to an array?
-        urlComponets?.queryItems = [searchTermQueryItem]
+        urlComponets?.queryItems = [searchTermQueryItem, resultTypeQueryItem]
         
         // Getting the newly built URL and checking to make sure it isn't nil.
         guard let requestURL = urlComponets?.url else { NSLog("Request is nil"); completion(NSError()); return }
@@ -45,7 +47,7 @@ class SearchResultController {
         // Setting the request type "GET"
         request.httpMethod = HTTPMethod.get.rawValue
         
-        // Creating a session to try and get the data, reponse, and the error if any
+        // Creating a session to try and get the data, response, and the error if any
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 NSLog("Error fetching data: \(error)")
